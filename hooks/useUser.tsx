@@ -23,7 +23,7 @@ export interface Props {
   [propName: string]: any;
 }
 
-export const MyUserContextPRovider = (props: Props) => {
+export const MyUserContextProvider = (props: Props) => {
   const {
     session,
     isLoading: isLoadingUser,
