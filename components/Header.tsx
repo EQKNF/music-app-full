@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
 import { HiHome, HiSearch } from "react-icons/hi";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import { twMerge } from "tailwind-merge";
@@ -42,7 +41,7 @@ const Header = ({ children, className }: HeaderProps) => {
         `
     h-fit
     bg-gradient-to-b
-    from-emerald-800
+    from-pink-800
     p-6
     `,
         className

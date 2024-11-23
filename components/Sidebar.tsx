@@ -32,7 +32,6 @@ const Sidebar = ({ children, songs }: SidebarProps) => {
         href: "/search",
       },
     ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [pathname]
   );
 

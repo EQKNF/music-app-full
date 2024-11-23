@@ -11,7 +11,7 @@ import getSongsByUserId from "@/actions/getSongsByUserId";
 const font = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Music App",
+  title: "Stopify - Web Player: Music for the chosen",
   description: "Listen to music",
 };
 
