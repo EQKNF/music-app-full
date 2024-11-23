@@ -41,7 +41,7 @@ const Header = ({ children, className }: HeaderProps) => {
         `
     h-fit
     bg-gradient-to-b
-    from-pink-800
+    from-pink-500
     p-6
     `,
         className
