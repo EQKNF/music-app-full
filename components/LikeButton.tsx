@@ -3,29 +3,26 @@
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import { useSessionContext } from "@supabase/auth-helpers-react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import Button from "./Button";
 import { toast } from "react-hot-toast";
+import useLikedSongsStore from "@/store/likedSongsStore";
 
 interface LikeButtonProps {
   songId: string;
 }
 
 const LikeButton = ({ songId }: LikeButtonProps) => {
-  const router = useRouter();
   const { supabaseClient } = useSessionContext();
-
   const authModal = useAuthModal();
   const { user } = useUser();
 
-  const [isLiked, setIsLiked] = useState(false);
+  const { likedSongs, toggleLike, setLiked } = useLikedSongsStore();
+  const isLiked = likedSongs[songId] || false;
 
   useEffect(() => {
-    if (!user?.id) {
-      return;
-    }
+    if (!user?.id) return;
 
     const fetchData = async () => {
       const { data, error } = await supabaseClient
@@ -36,14 +33,12 @@ const LikeButton = ({ songId }: LikeButtonProps) => {
         .single();
 
       if (!error && data) {
-        setIsLiked(true);
+        setLiked(songId, true);
       }
     };
 
     fetchData();
-  }, [songId, supabaseClient, user?.id]);
-
-  const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
+  }, [songId, supabaseClient, user?.id, setLiked]);
 
   const handleLike = async () => {
     if (!user) {
@@ -60,7 +55,7 @@ const LikeButton = ({ songId }: LikeButtonProps) => {
       if (error) {
         toast.error(error.message);
       } else {
-        setIsLiked(false);
+        toggleLike(songId);
       }
     } else {
       const { error } = await supabaseClient
@@ -70,12 +65,13 @@ const LikeButton = ({ songId }: LikeButtonProps) => {
       if (error) {
         toast.error(error.message);
       } else {
-        setIsLiked(true);
-        toast.success("liked");
+        toggleLike(songId);
+        toast.success("Liked!");
       }
     }
-    router.refresh();
   };
+
+  const Icon = isLiked ? AiFillHeart : AiOutlineHeart;
 
   return (
     <Button className="hover:opacity-75 transition" onClick={handleLike}>
